@@ -11,8 +11,12 @@ app.get('/', (req, res) => {
     res.send('hello world'.toUpperCase())
 });
 
-app.get('/api/courses', (req, res) => {
-    res.send([1, 2])
+app.get('/api/customers', (req, res) => {
+    res.send([1, 2, 3])
+});
+
+app.get('/api/customers/:id', (req, res) => {
+    res.send(req.params.id);
 });
 
 //make port number dynamic
