@@ -49,25 +49,23 @@ app.post("/api/spend", (req, res) => {
   if (typeof amt !== "number") {
     res.status(400).send("Amount must be a number");
   } else {
-    while (amt > 0) {
-      for (let transaction of transactions) {
-        if (transaction.points === 0) continue;
-        let diff = Math.abs(amt - transaction.points);
+    for (let transaction of transactions) {
+      if (transaction.points === 0) continue;
+      let diff = Math.abs(amt - transaction.points);
 
-        let obj = { payer: `${transaction.payer}`, points: 0 };
+      let obj = { payer: `${transaction.payer}`, points: 0 };
 
-        if (amt < transaction.points) {
-          transaction.points -= amt;
-          obj.points = -amt;
-          amt = 0;
-        } else {
-          amt -= transaction.points;
+      if (amt < transaction.points) {
+        transaction.points -= amt;
+        obj.points = -amt;
+        amt = 0;
+      } else {
+        amt -= transaction.points;
 
-          obj.points = -transaction.points;
-          transaction.points = 0;
-        }
-        response.push(obj);
+        obj.points = -transaction.points;
+        transaction.points = 0;
       }
+      response.push(obj);
     }
   }
 
@@ -82,4 +80,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`);
 });
-
